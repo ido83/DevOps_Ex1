@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp-container
+        image: webapp:latest
+        ports:
+        - containerPort: 5000
+        - containerPort: 8000
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/webapp
+      volumes:
+      - name: log-volume
+        hostPath:
+          path: /var/log/webapp
+          type: Directory
